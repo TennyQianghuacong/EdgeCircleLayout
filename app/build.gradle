@@ -34,7 +34,7 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
     implementation 'androidx.constraintlayout:constraintlayout:2.0.0-beta6'
-    implementation project(":edgecircle")
+//    implementation project(":edgecircle")
 
-//    implementation 'com.tenny.edgecircle:edgecircle:0.0.1'
+    implementation 'com.tenny.edgecircle:edgecircle:0.0.1'
 }

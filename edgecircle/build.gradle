@@ -107,7 +107,7 @@ bintray {
     configurations = ['archives']
     pkg {
         repo = "maven"
-        name = "edgecircle"    //发布到JCenter上的项目名字，必须填写
+        name = "edgecircle"
         websiteUrl = siteUrl
         vcsUrl = gitUrl
         licenses = ["Apache-2.0"]
