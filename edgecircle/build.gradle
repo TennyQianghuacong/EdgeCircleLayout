@@ -4,7 +4,6 @@ apply plugin: 'kotlin-android-extensions'
 
 apply plugin:'com.github.dcendents.android-maven'
 apply plugin:'com.jfrog.bintray'
-apply plugin: 'org.jetbrains.dokka-android'
 
 version ="0.0.1"
 
@@ -49,12 +48,11 @@ def gitUrl ='https://github.com/TennyQianghuacong/EdgeCircleLayout.git'
 group ="com.tenny.edgecircle"
 install {
     repositories.mavenInstaller {
-        // This generates POM.xml with proper parameters
         pom {
             project {
                 packaging 'aar'
                 // Add your description here
-                name 'Android BounceProgressBar Widget'     //项目描述
+                name 'Android BounceProgressBar Widget'
                 url siteUrl
                 // Set your license
                 licenses {
@@ -65,9 +63,9 @@ install {
                 }
                 developers {
                     developer {
-                        id 'tennyqianghuacong'        //填写开发者的一些基本信息
-                        name 'Qianghuacong'    //填写开发者的一些基本信息
-                        email 'dreamer.qianghc@gmail.com'   //填写开发者的一些基本信息
+                        id 'tennyqianghuacong'
+                        name 'Qianghuacong'
+                        email 'dreamer.qianghc@gmail.com'
                     }
                 }
                 scm {
@@ -80,44 +78,32 @@ install {
     }
 }
 
-task sourcesJar(type: Jar) {
-    from android.sourceSets.main.java.srcDirs
-    classifier = 'sources'
-}
-task javadoc(type: Javadoc) {
-    source = android.sourceSets.main.java.srcDirs
-    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
-}
-task javadocJar(type: Jar, dependsOn: javadoc) {
-    classifier = 'javadoc'
-    from javadoc.destinationDir
+task androidJavadocs(type: Javadoc) {
+    source = android.sourceSets.main.java.sourceFiles
 }
 
-task dokkaJavadoc(type: org.jetbrains.dokka.gradle.DokkaTask) {
-    outputFormat = 'javadoc'
-    outputDirectory = javadoc.destinationDir
-}
-task generateJavadoc(type: Jar, dependsOn: dokkaJavadoc) {
-    group = 'jar'
+task androidJavadocsJar(type: Jar) {
     classifier = 'javadoc'
-    from javadoc.destinationDir
+    //basename = artifact_id
+    from androidJavadocs.destinationDir
 }
-task generateSourcesJar(type: Jar) {
-    group = 'jar'
-    from android.sourceSets.main.java.srcDirs
+
+task androidSourcesJar(type: Jar) {
     classifier = 'sources'
+    //basename = artifact_id
+    from android.sourceSets.main.java.sourceFiles
 }
 
 artifacts {
-    archives javadocJar
-    archives sourcesJar
+    archives androidSourcesJar
+    archives androidJavadocsJar
 }
 
 Properties properties = new Properties()
 properties.load(project.rootProject.file('local.properties').newDataInputStream())
 bintray {
-    user = properties.getProperty("bintray.user")    //读取 local.properties 文件里面的 bintray.user
-    key = properties.getProperty("bintray.apikey")   //读取 local.properties 文件里面的 bintray.apikey
+    user = properties.getProperty("bintray.user")
+    key = properties.getProperty("bintray.apikey") 
     configurations = ['archives']
     pkg {
         repo = "maven"

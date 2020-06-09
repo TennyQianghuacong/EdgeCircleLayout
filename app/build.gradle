@@ -36,4 +36,5 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.0.0-beta6'
     implementation project(":edgecircle")
 
+//    implementation 'com.tenny.edgecircle:edgecircle:0.0.1'
 }
